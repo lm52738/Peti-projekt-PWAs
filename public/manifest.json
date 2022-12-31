@@ -7,9 +7,6 @@
     "theme_color": "#FFE1C4",
     "orientation": "portrait-primary",
     "start_url": "/index.html",
-    "scope": ".",
-    "dir": "ltr",
-    "lang": "en-US",
     "icons": [
       {
         "src": "windows11/SmallTile.scale-100.png",
