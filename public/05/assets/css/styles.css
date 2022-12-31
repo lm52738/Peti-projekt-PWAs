@@ -49,12 +49,9 @@ nav .sidenav-trigger{
   max-width: 70%;
 }
 
-/* .recipe-details{
-  display: grid;
-  grid-template-rows: 6fr 1fr;
-  margin-top: 6px;
-  
-} */
+#btnEnableNotifications {
+  margin: 3px;
+}
 .recipe-delete{
   grid-area: delete;
   position: absolute;

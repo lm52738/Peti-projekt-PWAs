@@ -17,7 +17,7 @@ if (process.env.VER) {
 }
 
 const app = express();
-app.use(express.json()); // za VER06
+app.use(express.json());
 
 app.use((req, res, next) => {
     console.log(new Date().toLocaleString() + " " + req.url);
@@ -69,16 +69,9 @@ app.get("/snaps", function (req, res) {
         files
     });
 });
-// /potrebno za VER05+
 
-
-
-
-
-// potrebno na VER06
 const webpush = require('web-push');
 
-// Umjesto baze podataka, čuvam pretplate u datoteci: 
 let subscriptions = [];
 const SUBS_FILENAME = 'subscriptions.json';
 try {
@@ -99,8 +92,8 @@ app.post("/saveSubscription", function(req, res) {
 
 async function sendPushNotifications(snapTitle) {
     webpush.setVapidDetails('mailto:lm52738@fer.hr', 
-    'BL1oXiSXCjKRPParkSNUP7ik7Ltl3RpPUxurkh7ro4rdpNLylON7f3xxZryBF_xN8CqxvemlVdT2EJGH33qe5iw', 
-    '4B9u-sA9uJ8zISw3FXlsbbsaVixK3NJn6o_BZshEZnI');
+    'BKe5q2ZJ41z2XbTzp77nd-6E_JafkIDdkGxtNjmdQHqBJN8n0xa1Lof-hOLXdYuIdwSbzBud4IVSDqtOArfn9NY', 
+    '6uso3PjAQnB_wTyyadqCfGdstdllRMe5RGVVlVrXETI');
     subscriptions.forEach(async sub => {
         try {
             console.log("Sending notif to", sub);
@@ -114,9 +107,6 @@ async function sendPushNotifications(snapTitle) {
         }
     });
 }
-// /potrebno na VER06
-
-
 
 app.listen(httpPort, function () {
     console.log(`HTTP listening on port: ${httpPort}`);
