@@ -38,7 +38,8 @@ var uploadSnaps = multer({
             cb(null, UPLOAD_PATH);
         },
         filename: function (req, file, cb) {
-            let fn = file.originalname.replaceAll(":", "-");
+            console.log(file.originalname);
+            let fn = file.originalname.replace(/:/g, "-");
             cb(null, fn);
         },
     })

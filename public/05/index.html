@@ -37,34 +37,30 @@
   </ul>
 
   <!-- content -->
-  <div id="snaps" class="recipes container grey-text text-darken-1">
-    <template id="snapTemplate" class="card-panel recipe white row">
-        <div
-            class="
-                d-flex
-                flex-column
-                align-items-center
-                p-1
-                shadow
-                p-3
-                mb-2
-                bg-white
-                rounded
-            "
-        >
-            <img class="img-fluid" src="tbd" />
-            <h3>title</h3>
-        </div>
-    </template>
+  <div class="recipes container grey-text text-darken-1">
+    <div id="snaps">
+      <template id="snapTemplate">
+          <div class="card-panel recipe white row">
+            <img src="tbd" />
+            <h3  class="recipe-title">title</h3>
+            <p class="recipe-details">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus, porro voluptatum illum veniam eaque sunt sit labore provident eligendi! Voluptate amet suscipit inventore unde maxime atque impedit officia nobis laboriosam!</p>
+          </div>
+      </template>
+    </div>
+  
+    <div class="center">
+      <a href="./native.html" class="add-btn btn-floating btn-small btn-large add-btn sidenav-trigger">
+        <i class="material-icons">add</i>
+      </a>
+    </div>
   </div>
 
-  <div class="center">
-    <a href="./native.html" class="btn-floating btn-small btn-large add-btn sidenav-trigger">
-      <i class="material-icons">add</i>
-    </a>
-  </div>
+  
 
   <script>
+    navigator.serviceWorker.register('./sw.js', {type: 'module'})
+      .then(reg => console.log('service worker registered',reg))
+      .catch(err => console.log('service worker not registered', err));
     fetch("/snaps")
         .then((res) => {
             console.log("res", res);
@@ -74,8 +70,7 @@
                     data.files.forEach((fileName) => {
                         console.log("appending", fileName);
                         let snapsDiv = document.querySelector("#snaps");
-                        let template =
-                            document.querySelector("#snapTemplate");
+                        let template = document.querySelector("#snapTemplate");
                         var clone = template.content.cloneNode(true);
                         let img = clone.querySelector("img");
                         img.src = "/uploads/" + fileName;
@@ -94,7 +89,6 @@
         });
 
   </script>
-  <script src="./assets/js/app.js"></script>
   <script src="./assets/js/ui.js"></script>
 </body>
 </html>
