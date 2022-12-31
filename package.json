@@ -4,8 +4,7 @@
   "description": "PWA examples used in lectures in Advanced web developmen course @FER",
   "main": "server.js",
   "scripts": {
-    "ver05": "SET VER=05 && nodemon --inspect server.js",
-    "ver06": "SET VER=06 && nodemon --inspect server.js",
+    "ver05": "SET VER=01 && nodemon --inspect server.js",
     "gen-vapid": "web-push generate-vapid-keys"
   },
   "author": "imekterovic",

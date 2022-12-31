@@ -92,8 +92,8 @@ app.post("/saveSubscription", function(req, res) {
 
 async function sendPushNotifications(snapTitle) {
     webpush.setVapidDetails('mailto:lm52738@fer.hr', 
-    'BKe5q2ZJ41z2XbTzp77nd-6E_JafkIDdkGxtNjmdQHqBJN8n0xa1Lof-hOLXdYuIdwSbzBud4IVSDqtOArfn9NY', 
-    '6uso3PjAQnB_wTyyadqCfGdstdllRMe5RGVVlVrXETI');
+    'BM6HJfJDl8HIoh9AO_JvwUKF-qLDpC9x5vkNWIoVxJFCJpTea2Yr0IDjKasMHF16lxETkRay2lh92lb6iL1VVyU', 
+    'U_WqcTMDTTYJq07lTQb1S_w3IdeQ3IKO2mKYTy-thVU');
     subscriptions.forEach(async sub => {
         try {
             console.log("Sending notif to", sub);

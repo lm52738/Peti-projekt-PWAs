@@ -1,0 +1,86 @@
+/* colours */
+:root{
+  --primary: #FFE9D2;
+  --secondary: #FFE1C4;
+  --title: #FF8816;
+}
+
+/* layout styles */
+nav{
+  background: var(--primary);
+  border-bottom: 10px solid var(--secondary);
+}
+nav a{
+  text-transform: uppercase;
+  color: var(--title);
+}
+nav a span{
+  font-weight: bold;
+}
+nav .sidenav-trigger{
+  margin: 0;
+}
+
+/* book styles */
+.books{
+  margin-top: 20px;
+  overflow-y: scroll;
+}
+
+.add-btn {
+  margin-bottom: 20px;
+}
+
+.card-panel.book{
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0px 1px 3px rgba(90,90,90,0.1);
+  position: relative;
+  align-items: center;
+  padding: 1;
+  margin-bottom: 2;
+}
+.book img{
+  grid-area: image;
+  max-width: 60px;
+}
+
+.image {
+  max-width: 70%;
+}
+
+#btnEnableNotifications {
+  margin: 20px;
+  background: var(--title);
+}
+
+#btnUpload {
+  margin: 20px;
+  background: var(--title);
+}
+
+#btnSnap {
+  margin: 20px;
+  background: var(--title);
+}
+
+.book-title{
+  font-weight: bold;
+  margin: auto;
+}
+
+/* form-styles */
+.add-btn{
+  background: var(--title) !important;
+}
+input{
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+.side-form button{
+  background: var(--title);
+  box-shadow: 1px 1px 3px rgba(90,90,90,0.2);
+}
+form .input-field{
+  margin-top: 30px;
+}
