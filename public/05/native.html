@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Reviews</title>
+  <!-- materialize icons, css & js -->
+  <link type="text/css" href="./assets/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" href="./assets/css/styles.css" rel="stylesheet">
+  <script type="text/javascript" src="./assets/js/materialize.min.js"></script>
+  <link rel="manifest" href="./manifest.json">
+</head>
+
+<body class="grey lighten-4">
+  <!-- top nav -->
+  <nav class="z-depth-0">
+    <div class="nav-wrapper container">
+      <a href="/">PWA<span>Reviews</span></a>
+      <span class="right grey-text text-darken-1">
+        <i class="material-icons sidenav-trigger" data-target="side-menu">menu</i>
+      </span>
+    </div>
+  </nav>
+
+  <!-- side nav -->
+  <ul id="side-menu" class="sidenav side-menu">
+    <li><a class="subheader">REVIEWS</a></li>
+    <li><a href="/" class="waves-effect">Home</a></li>
+    <li><a href="./about.html" class="waves-effect">About</a></li>
+    <li><div class="divider"></div></li>
+    <li><a href="./contact.html" class="waves-effect">
+      <i class="material-icons">mail_outline</i>Contact</a>
+    </li>
+  </ul>
+
+  <!-- content -->
+  <div id="snapPhoto" class="container grey-text">
+    <h5>Behold my wonderful dish:</h5>
+    <div id="beforeSnap" class="d-flex flex-column align-items-center">
+        <video id="player" width="100%" autoplay></video>
+        <button class="btn btn-primary mt-2" id="btnSnap">
+            <i class="bi bi-camera"></i>
+            Snap
+        </button>
+    </div>
+    <div id="afterSnap" class="d-none">
+        <canvas id="cnvFood"></canvas>
+        <input id="snapName" type="text" class="form-control mt-2" placeholder="give it a catchy name..." />
+        <button class="btn btn-success" id="btnUpload">
+            <i class="bi bi-cloud-upload"></i>
+            Upload
+        </button>
+    </div>
+</div>
+
+<script type="module">
+    import {
+            get,
+            set,
+        } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
+
+        let player = document.getElementById("player");
+        let canvas = document.getElementById("cnvFood");
+        let beforeSnap = document.getElementById("beforeSnap");
+        let afterSnap = document.getElementById("afterSnap");
+        let snapName = document.getElementById("snapName");
+        let startCapture = function () {                
+            beforeSnap.classList.remove("d-none");
+            beforeSnap.classList.add("d-flex", "flex-column", "align-items-center");
+            afterSnap.classList.remove("d-flex", "flex-column", "align-items-center");
+            afterSnap.classList.add("d-none");
+            if (!("mediaDevices" in navigator)) {
+                console.log("tu sam riknul")
+                // fallback to file upload button, ili sl.
+                // vidjet i custom API-je: webkitGetUserMedia i mozGetUserMedia
+            } else {
+                navigator.mediaDevices
+                    .getUserMedia({ video: true, audio: false })
+                    .then((stream) => {
+                        player.srcObject = stream;
+                    })
+                    .catch((err) => {
+                        alert("Media stream not working");
+                        console.log(err);
+                    });
+            }
+        };
+        startCapture();
+        let stopCapture = function () {
+            afterSnap.classList.remove("d-none");
+            afterSnap.classList.add("d-flex", "flex-column", "align-items-center");
+            beforeSnap.classList.remove("d-flex", "flex-column", "align-items-center");
+            beforeSnap.classList.add("d-none");
+            player.srcObject.getVideoTracks().forEach(function (track) {
+                track.stop();
+            });
+        }
+        document
+            .getElementById("btnSnap")
+            .addEventListener("click", function (event) {
+                canvas.width = player.getBoundingClientRect().width;
+                canvas.height = player.getBoundingClientRect().height;                    
+                canvas
+                    .getContext("2d")
+                    .drawImage(player, 0, 0, canvas.width, canvas.height);
+                stopCapture();
+            });
+        document
+            .getElementById("btnUpload")
+            .addEventListener("click", function (event) {
+                event.preventDefault();
+                if (!snapName.value.trim()) {
+                    alert("Give it a cathcy name!");
+                    return false;
+                }
+                if (
+                    "serviceWorker" in navigator &&
+                    "SyncManager" in window
+                ) {
+                    let url = canvas.toDataURL();
+                    fetch(url)
+                        .then((res) => res.blob())
+                        .then((blob) => {
+                            let ts = new Date().toISOString();
+                            let id = ts + snapName.value.replace(/\s/g, '_');  // ws->_
+                            set(id, {
+                                id,
+                                ts,
+                                title: snapName.value,
+                                image: blob
+                            });
+                            return navigator.serviceWorker.ready;
+                        })
+                        .then((swRegistration) => {
+                            return swRegistration.sync.register(
+                                "sync-snaps"
+                            );
+                        })
+                        .then(() => {
+                            console.log("Queued for sync");
+                            startCapture();
+                        })
+                        .catch((err) => {
+                            console.log(error);
+                        });
+                } else {
+                    // fallback
+                    // pokusati poslati, pa ako ima mreze onda dobro...
+                    alert("TODO - vaš preglednik ne podržava bckg sync...");
+                }
+            });
+    </script>
+  <script src="./assets/js/app.js"></script>
+  <script src="./assets/js/ui.js"></script>
+</body>
+</html>
