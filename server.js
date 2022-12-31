@@ -4,17 +4,6 @@ const fs = require("fs");
 const multer = require("multer");
 const fse = require('fs-extra');
 const httpPort = process.env.PORT || 5500;
-let VERSION;
-
-if (process.env.VER) {
-    VERSION = process.env.VER.trim();
-    console.log("Serving version: " + VERSION);
-} else {
-    console.error(
-        "App version not set. Set the env var 'VER' to 01, 02, ... before you run the server"
-    );
-    process.exit();
-}
 
 const app = express();
 app.use(express.json());
@@ -24,14 +13,14 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.static(path.join(__dirname, "public", VERSION)));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "public", VERSION, "index.html"));
+    res.sendFile(path.join(__dirname, "public","index.html"));
 });
 
-// potrebno za VER05+
-const UPLOAD_PATH = path.join(__dirname, "public", VERSION, "uploads");
+
+const UPLOAD_PATH = path.join(__dirname, "public", "uploads");
 var uploadSnaps = multer({
     storage:  multer.diskStorage({
         destination: function (req, file, cb) {
@@ -57,7 +46,7 @@ app.post("/saveSnap",  function (req, res) {
         } else {
             console.log(req.body);
             res.json({ success: true, id: req.body.id });
-            if (VERSION==="06") await sendPushNotifications(req.body.title);
+            await sendPushNotifications(req.body.title);
         }
     });
 });

@@ -1,13 +1,13 @@
 {
-  "name": "pwa-examples",
+  "name": "pwa-library",
   "version": "1.0.0",
-  "description": "PWA examples used in lectures in Advanced web developmen course @FER",
+  "description": "PWA application",
   "main": "server.js",
   "scripts": {
-    "ver05": "SET VER=01 && nodemon --inspect server.js",
+    "serve": "nodemon --inspect server.js",
     "gen-vapid": "web-push generate-vapid-keys"
   },
-  "author": "imekterovic",
+  "author": "lm52738",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
