@@ -1,7 +1,7 @@
 import { get, set } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm";
 
 let player = document.getElementById("player");
-let canvas = document.getElementById("cnvFood");
+let canvas = document.getElementById("cnvBook");
 let beforeSnap = document.getElementById("beforeSnap");
 let afterSnap = document.getElementById("afterSnap");
 let snapName = document.getElementById("snapName");
@@ -82,8 +82,6 @@ document
                     console.log(error);
                 });
         } else {
-            // fallback
-            // pokusati poslati, pa ako ima mreze onda dobro...
             alert("TODO - vaš preglednik ne podržava bckg sync...");
         }
     });

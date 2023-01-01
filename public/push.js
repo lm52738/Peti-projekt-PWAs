@@ -1,7 +1,7 @@
 let btnNotif = document.getElementById("btnEnableNotifications");
 
 if ("Notification" in window && "serviceWorker" in navigator) {
-    btnNotif.addEventListener("click", function () {
+    btnNotif.addEventListener("click", () => {
         Notification.requestPermission(async function (res) {
             console.log("Request permission result:", res);
             if (res === "granted") {
@@ -16,7 +16,7 @@ if ("Notification" in window && "serviceWorker" in navigator) {
     btnNotif.classList.add("btn-outline-danger");
 }
 
-function urlBase64ToUint8Array(base64String) {
+const urlBase64ToUint8Array = (base64String) =>{
     var padding = "=".repeat((4 - (base64String.length % 4)) % 4);
     var base64 = (base64String + padding)
         .replace(/\-/g, "+")
@@ -37,7 +37,7 @@ async function setupPushSubscription() {
         let sub = await reg.pushManager.getSubscription();
         if (sub === null) {
             var publicKey =
-                "BM6HJfJDl8HIoh9AO_JvwUKF-qLDpC9x5vkNWIoVxJFCJpTea2Yr0IDjKasMHF16lxETkRay2lh92lb6iL1VVyU";
+                "BH_XKWFF9k6HqXM6na_Ra06fh3KjZairsZIGPqm8HjHWP4oCK1HCHSRk1QblqpTjcDaUcxjre0fr8tnCQg5T47o";
             sub = await reg.pushManager.subscribe({
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array(publicKey)

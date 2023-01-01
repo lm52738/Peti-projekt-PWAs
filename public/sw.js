@@ -8,16 +8,14 @@ const dynamicCacheName = 'site-dynamic-v1';
 const assets = [
   '/',
   '/index.html',
-  '/js/app.js',
-  '/js/ui.js',
-  '/js/materialize.min.js',
-  '/css/styles.css',
-  '/css/materialize.min.css',
-  '/img/dish.png',
+  '/assets/js/ui.js',
+  '/assets/js/materialize.min.js',
+  '/assets/css/styles.css',
+  '/assets/css/materialize.min.css',
   'https://fonts.googleapis.com/icon?family=Material+Icons',
   'https://fonts.gstatic.com/s/materialicons/v47/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
-  '/pages/fallback.html',
-  '/pages/404.html'
+  '/fallback.html',
+  '/404.html'
 ];
 
 // cache size limit function
@@ -71,7 +69,7 @@ self.addEventListener('fetch', evt => {
       });
     }).catch(() => {
       if(evt.request.url.indexOf('.html') > -1){
-        return caches.match('/pages/fallback.html');
+        return caches.match('/fallback.html');
       } 
     })
   );

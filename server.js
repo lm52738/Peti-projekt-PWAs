@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
-    console.log(new Date().toLocaleString() + " " + req.url);
+    //console.log(new Date().toLocaleString() + " " + req.url);
     next();
 });
 
@@ -27,7 +27,7 @@ var uploadSnaps = multer({
             cb(null, UPLOAD_PATH);
         },
         filename: function (req, file, cb) {
-            console.log(file.originalname);
+            //console.log(file.originalname);
             let fn = file.originalname.replace(/:/g, "-");
             cb(null, fn);
         },
@@ -36,7 +36,7 @@ var uploadSnaps = multer({
 app.post("/saveSnap",  function (req, res) {
     uploadSnaps(req, res, async function(err) {
         if (err) {
-            console.log(err);
+            //console.log(err);
             res.json({
                 success: false,
                 error: {
@@ -44,7 +44,7 @@ app.post("/saveSnap",  function (req, res) {
                 }
             });
         } else {
-            console.log(req.body);
+            //console.log(req.body);
             res.json({ success: true, id: req.body.id });
             await sendPushNotifications(req.body.title);
         }
@@ -53,7 +53,7 @@ app.post("/saveSnap",  function (req, res) {
 app.get("/snaps", function (req, res) {
     let files = fse.readdirSync(UPLOAD_PATH);
     files = files.reverse().slice(0, 10);
-    console.log("In", UPLOAD_PATH, "there are", files);
+    //console.log("In", UPLOAD_PATH, "there are", files);
     res.json({
         files
     });
@@ -66,11 +66,11 @@ const SUBS_FILENAME = 'subscriptions.json';
 try {
     subscriptions = JSON.parse(fs.readFileSync(SUBS_FILENAME));
 } catch (error) {
-    console.error(error);    
+    //console.error(error);    
 }
 
 app.post("/saveSubscription", function(req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     let sub = req.body.sub;
     subscriptions.push(sub);
     fs.writeFileSync(SUBS_FILENAME, JSON.stringify(subscriptions));
@@ -81,18 +81,18 @@ app.post("/saveSubscription", function(req, res) {
 
 async function sendPushNotifications(snapTitle) {
     webpush.setVapidDetails('mailto:lm52738@fer.hr', 
-    'BM6HJfJDl8HIoh9AO_JvwUKF-qLDpC9x5vkNWIoVxJFCJpTea2Yr0IDjKasMHF16lxETkRay2lh92lb6iL1VVyU', 
-    'U_WqcTMDTTYJq07lTQb1S_w3IdeQ3IKO2mKYTy-thVU');
+    'BH_XKWFF9k6HqXM6na_Ra06fh3KjZairsZIGPqm8HjHWP4oCK1HCHSRk1QblqpTjcDaUcxjre0fr8tnCQg5T47o', 
+    '6rr_i2Bv0n9_vJ-fR8JPtveTvtcpw1qduzDEF1AxET4');
     subscriptions.forEach(async sub => {
         try {
-            console.log("Sending notif to", sub);
+            //console.log("Sending notif to", sub);
             await webpush.sendNotification(sub, JSON.stringify({
                 title: 'New snap!',
                 body: 'Somebody just snaped a new photo: ' + snapTitle,
                 redirectUrl: '/index.html'
               }));    
         } catch (error) {
-            console.error(error);
+            //console.error(error);
         }
     });
 }
